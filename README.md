@@ -55,3 +55,7 @@ This is unit test project including all business logic module tests
 6. Continuous refactoring
 
 ## How to run application
+1. Download source code from git:   https://github.com/nzlikerugby/Excerise/archive/master.zip
+2. Unzip the download file
+3. Run solution in visual studio (system require .netcore 2.1)
+4. Set Payslip project as startup project for this is application entry
