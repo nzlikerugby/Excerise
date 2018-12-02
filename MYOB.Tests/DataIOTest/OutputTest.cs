@@ -1,24 +1,29 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;
-using Moq;
-using MyServices;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MyDataIO;
 
 namespace MYOB.Tests
 {
     public partial class DataIOTests
     {
-        /*
+        
         [TestMethod]
-        public void Test_ReadInput()
+        public void Test_Output_Normal_Input()
         {
-            var mock = new Mock<IDataIO>();
-            mock.Setup(p => p.ReadInput()).Returns( new List<IStaff> { new Employee{ FirstName = "David", LastName = "Zhao", AnnualSalary = "60050", SuperRate = "10%", PayPeriod = "01 March-31March" } });
-            IDataIO dataIO = new DataIO
+            var payslip = new Payslip
+            {
+                Name = "David",
+                PayPeriod = "01 March-31 March",
+                GrossIncome = 60500,
+                IncomeTax = 5004,
+                NetIncome = 4082,
+                Super = 450
+            };
+
+            Assert.AreEqual(true, DataIO.GetDataIO().Output(payslip,OUTPUTTO.CONSOLE));
         }
 
+        /*
         [TestMethod]
         [ExpectedException(typeof(Exception), "SUPER RATE MUST BE GREATER THAN 0")]
         public void Test_Output_Super_When_Input_Less_Than_0()

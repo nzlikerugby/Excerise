@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace MyServices
 {
-    public class Services
+    public class Services:IServices
     {
         private IStaff staff;
         private static Services service;
@@ -190,11 +190,26 @@ namespace MyServices
         {
             CheckIfNullOrEmptyInputExist(staff);
             //ParseProcess(staff);
-            GenerateFinalOutput(staff);
+            GeneratePayslip(staff);
         }
 
-        public void GenerateFinalOutput(IStaff staff)
+        public List<IPayslip> GeneratePayslips(List<IStaff> staffs)
         {
+            if(staffs == null || staffs.Count == 0)
+            {
+                throw new ArgumentNullException("INPUT IS NULL OR EMPTY");
+            }
+            List<IPayslip> payslips = new List<IPayslip>();
+            foreach(var staff in staffs)
+            {
+                payslips.Add(GeneratePayslip(staff));
+            }
+            return payslips;
+        }
+
+        public IPayslip GeneratePayslip(IStaff staff)
+        {
+            IPayslip payslip;
             try
             {
                 var name = service.OutputName(staff.FirstName, staff.LastName);
@@ -203,12 +218,24 @@ namespace MyServices
                 var incomeTax = service.OutputIncomeTax(staff.AnnualSalary);
                 var netIncome = service.OutputNetIncome(grossIncome, incomeTax);
                 var super = service.OutputSuper(grossIncome, staff.SuperRate);
-                Console.WriteLine($"{name}, {payPeriod}, {grossIncome}, {incomeTax}, {netIncome}, {super}");
+
+                payslip = new Payslip
+                {
+                    Name = name,
+                    PayPeriod = payPeriod,
+                    GrossIncome = grossIncome,
+                    IncomeTax = incomeTax,
+                    NetIncome = netIncome,
+                    Super = super
+                };
+                //Console.WriteLine($"{name}, {payPeriod}, {grossIncome}, {incomeTax}, {netIncome}, {super}");
+                return payslip;
             }
             catch (Exception e)
             {
                 Console.WriteLine($"{e.Message}");
             }
+            return null;
         }
 
         public void CheckIfNullOrEmptyInputExist(IStaff staff)

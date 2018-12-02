@@ -28,6 +28,24 @@ namespace MYOB.Tests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "INPUT ARE NULL OR EMPTY")]
+        public void Test_GenerateStaffList_Input_IS_NULL()
+        {
+            List<string> input = null;
+            var actual = processor.GenerateStaffList(input);
+            Assert.Fail("IF REACH HERE,THIS TEST FAILS");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "INPUT ARE NULL OR EMPTY")]
+        public void Test_GenerateStaffList_Input_IS_EMPTY()
+        {
+            List<string> input = new List<string>();
+            var actual = processor.GenerateStaffList(input);
+            Assert.Fail("IF REACH HERE,THIS TEST FAILS");
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException), "FIELD IS NULL OR EMPTY")]
         public void Test_GenerateStaffList_Wrong_Input()
         {
@@ -42,8 +60,8 @@ namespace MYOB.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException), "INPUT FIELD MISSING")]
-        public void Test_GenerateStaffList_Empty_Input()
+        [ExpectedException(typeof(Exception), "INPUT FIELD MISSING")]
+        public void Test_GenerateStaffList_Empty_Input_Row()
         {
             var input = new List<string>
             {

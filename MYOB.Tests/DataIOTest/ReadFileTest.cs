@@ -18,22 +18,24 @@ namespace MYOB.Tests
         [ExpectedException(typeof(Exception), "FILE DOES NOT EXIST")]
         public void Test_ReadFile_When_File_Not_Exists()
         {
-            IDataIO dataIO = new DataIO();
-            dataIO.ReadFile("FileDoesNotExist.csv");
+            var dataIO = DataIO.GetDataIO();
+            DataIO.GetDataIO().ReadFile("FileDoesNotExist.csv");
+            Assert.Fail("IF REACH HERE,THIS TEST FAILS");
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception), "EMPTY FILE")]
         public void Test_ReadFile_When_File_Exists_But_No_Content()
         {
-            IDataIO dataIO = new DataIO();
+            var dataIO = DataIO.GetDataIO();
             var result = dataIO.ReadFile(Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName,"payslip","data","hello.csv"));
+            Assert.Fail("IF REACH HERE,THIS TEST FAILS");
         }
 
         [TestMethod]
         public void Test_ReadFile_When_File_Exists_With_Content()
         {
-            IDataIO dataIO = new DataIO();
+            var dataIO = DataIO.GetDataIO();
             var stream = dataIO.ReadFile(Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, "payslip", "data", "input.csv"));
             Assert.IsNotNull(stream);
         }

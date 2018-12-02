@@ -9,6 +9,6 @@ namespace Model
     {
         List<string> ReadFile(string fileName);
 
-        IPayslip GeneratePayslip();
+        bool Output(List<IPayslip> payslips,OUTPUTTO outputTo);
     }
 }
