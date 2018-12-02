@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataInputFromFile\DataIO.csproj" />
+    <ProjectReference Include="..\DataIO\DataIO.csproj" />
     <ProjectReference Include="..\DataPreProcessor\DataPreProcessor.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
