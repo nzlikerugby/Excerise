@@ -5,6 +5,10 @@ using System.Text.RegularExpressions;
 
 namespace MyServices
 {
+    /// <summary>
+    /// This class implementing IServices interface
+    /// Mainly used to caculate payslip data fields
+    /// </summary>
     public class Services:IServices
     {
         private IStaff staff;
@@ -41,10 +45,18 @@ namespace MyServices
             { "1December-30December", "01 December-30 December" }
         };
         
+        /// <summary>
+        /// Private constructor to ensure only one 
+        /// instance can be created
+        /// </summary>
         private Services()
         {            
         }
-                
+        
+        /// <summary>
+        /// Ensure single instance of this class
+        /// </summary>
+        /// <returns></returns>
         public static Services GetServices()
         {
             if(service == null)
@@ -54,17 +66,25 @@ namespace MyServices
             return service;
         }
 
+        /// <summary>
+        /// Generate name based on first name and last name
+        /// some restrictions apply in this process
+        /// </summary>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <returns></returns>
         public string OutputName(string firstName, string lastName)
         {
+
             // Assume firstname or lastname cannot be null or empty
             if(string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
             {
                 throw new Exception("NAME CANNOT BE NULL OR EMPTY");
             }
             // Assume firstname or lastname length cannot exceed 20 characters
-            if(firstName.Length > 20 || lastName.Length > 20)
+            if(firstName.Length > 30 || lastName.Length > 30)
             {
-                throw new Exception("NAME CANNOT BE MORE THAN 20 CHARACTERS");
+                throw new Exception("NAME CANNOT BE MORE THAN 30 CHARACTERS");
             }
             // Assume firstname or lastname only contains english character
             if(!Regex.IsMatch(firstName,@"^[a-zA-Z]*$") || !Regex.IsMatch(lastName, @"^[a-zA-Z]*$"))
@@ -74,11 +94,12 @@ namespace MyServices
             return firstName + " " + lastName;
         }
 
-        public void Input(IStaff staff)
-        {
-            this.staff = staff;
-        }
-
+        /// <summary>
+        /// Generate super from gross income and super rate
+        /// </summary>
+        /// <param name="input_grossIncome"></param>
+        /// <param name="input_superRate"></param>
+        /// <returns>super rate in int type</returns>
         public int OutputSuper(double? input_grossIncome, string input_superRate)
         {
             var grossIncome = ValidateInput(input_grossIncome);
@@ -104,6 +125,12 @@ namespace MyServices
             return (int)(grossIncome * superRate);
         }
 
+        /// <summary>
+        /// Generate net income from income and tax
+        /// </summary>
+        /// <param name="input_income"></param>
+        /// <param name="input_tax"></param>
+        /// <returns>Net income in int type</returns>
         public int OutputNetIncome(int? input_income, int? input_tax)
         {
             var input = ValidateInput(input_income);
@@ -116,6 +143,11 @@ namespace MyServices
             return (int)netIncome;
         }
 
+        /// <summary>
+        /// Parse input to get double type output
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="result"></param>
         public void ParseToDouble(string input, out double result)
         {
             if (!double.TryParse(input, out result))
@@ -124,6 +156,11 @@ namespace MyServices
             }
         }
 
+        /// <summary>
+        /// Generate income tax from string type input
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>Income tax in int</returns>
         public int OutputIncomeTax(string input)
         {
             double salary = 0;
@@ -154,6 +191,11 @@ namespace MyServices
             }
         }
 
+        /// <summary>
+        /// Generate gross income from string type input
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>Gross income in int</returns>
         public int OutputGrossIncome(string input)
         {
             CheckInputNullOrEmpty(input);
@@ -167,6 +209,11 @@ namespace MyServices
             return (int)(salary / 12);
         }
 
+        /// <summary>
+        /// Generate payment period from string type input
+        /// </summary>
+        /// <param name="inputPayperiod"></param>
+        /// <returns>Payment period in string</returns>
         public string OutputPayperiod(string inputPayperiod)
         {
             CheckInputNullOrEmpty(inputPayperiod);
@@ -178,21 +225,11 @@ namespace MyServices
             throw new Exception("INPUT DATE IN WRONG FORMAT");
         }
 
-        //public void GetOutputConsole(string firstName, string lastName, string annualSalary, string superRate, string inputPayperiod)
-        //{
-        //    IStaff staff = ConvertInputToEmployee(firstName, lastName, annualSalary, superRate, inputPayperiod);
-        //    CheckIfNullOrEmptyInputExist(staff);
-        //    //ParseProcess(staff);
-        //    GenerateFinalOutput(staff);
-        //}
-
-        public void GetOutputConsole(IStaff staff)
-        {
-            CheckIfNullOrEmptyInputExist(staff);
-            //ParseProcess(staff);
-            GeneratePayslip(staff);
-        }
-
+        /// <summary>
+        /// Generate list of payslips from staff list input
+        /// </summary>
+        /// <param name="staffs"></param>
+        /// <returns>List of payslips</returns>
         public List<IPayslip> GeneratePayslips(List<IStaff> staffs)
         {
             if(staffs == null || staffs.Count == 0)
@@ -207,6 +244,11 @@ namespace MyServices
             return payslips;
         }
 
+        /// <summary>
+        /// Generate a payslip from a staff object input
+        /// </summary>
+        /// <param name="staff"></param>
+        /// <returns></returns>
         public IPayslip GeneratePayslip(IStaff staff)
         {
             IPayslip payslip;
@@ -228,7 +270,6 @@ namespace MyServices
                     NetIncome = netIncome,
                     Super = super
                 };
-                //Console.WriteLine($"{name}, {payPeriod}, {grossIncome}, {incomeTax}, {netIncome}, {super}");
                 return payslip;
             }
             catch (Exception e)
@@ -238,43 +279,23 @@ namespace MyServices
             return null;
         }
 
-        public void CheckIfNullOrEmptyInputExist(IStaff staff)
-        {
-            var properties = staff.GetType().GetProperties();
-            foreach(var p in properties)
-            {
-                var o = (string)(p.GetValue(staff));
-                if (string.IsNullOrEmpty(o))
-                {
-                    throw new Exception("INPUT FIELD CANNOT BE NULL OR EMPTY");
-                }
-            }
-        }
-
-        //// Convert input to employee object
-        //public IStaff ConvertInputToEmployee(string firstName, string lastName, string annualSalary, string superRate, string inputPayperiod)
-        //{
-        //    staff = new Employee
-        //    {
-        //        FirstName = firstName,
-        //        LastName = lastName,
-        //        AnnualSalary = annualSalary,
-        //        SuperRate = superRate,
-        //        PayPeriod = inputPayperiod
-        //    };
-        //    return staff;
-        //}
-
-        // Validate input
+        /// <summary>
+        /// Validate input 
+        /// </summary>
+        /// <param name="input"></param>
         public void CheckInputNullOrEmpty(string input)
         {
             if (string.IsNullOrEmpty(input))
             {
                 throw new Exception("INPUT FIELD CANNOT BE NULL OR EMPTY");
             }
-
         }
 
+        /// <summary>
+        /// Validate input
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public double ValidateInput(double? input)
         {
             var amount = input ?? null;

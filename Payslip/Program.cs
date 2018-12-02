@@ -15,7 +15,7 @@ namespace Payslip
         {
             try
             {
-                var app = new App();
+                var app = new App(DataIO.GetDataIO(),DataPreProcessor.GetProcessor(),Services.GetServices());
                 var file = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, "payslip", "data", "input.csv");
                 app.GeneratePayslip(file);
             }

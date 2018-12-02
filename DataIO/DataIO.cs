@@ -7,12 +7,25 @@ namespace MyDataIO
 {
     public class DataIO : IDataIO
     {
+        /// <summary>
+        /// DataIO field
+        /// </summary>
         private static IDataIO dataIO;
         
+        /// <summary>
+        /// For read filestream use
+        /// </summary>
         private Stream stream;
 
+        /// <summary>
+        /// Constructor for singleton
+        /// </summary>
         private DataIO() { }
 
+        /// <summary>
+        /// Ensure only single instance
+        /// </summary>
+        /// <returns></returns>
         public static IDataIO GetDataIO()
         {
             if(dataIO == null)
@@ -22,6 +35,11 @@ namespace MyDataIO
             return dataIO;
         }
 
+        /// <summary>
+        /// Read csv file and return string list
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public List<string> ReadFile(string fileName)
         {
             if (!File.Exists(fileName))
@@ -32,7 +50,13 @@ namespace MyDataIO
             return StreamToStringLine();
         }
 
-        public bool Output(List<IPayslip> payslips, OUTPUTTO output=OUTPUTTO.BOTH)
+        /// <summary>
+        /// Output payslips to selected destination
+        /// </summary>
+        /// <param name="payslips">payslips for output</param>
+        /// <param name="output">decide where to output</param>
+        /// <returns></returns>
+        public bool Output(List<IPayslip> payslips, OUTPUTTO output=OUTPUTTO.MANY)
         {
             if (payslips == null)
             {
@@ -43,6 +67,11 @@ namespace MyDataIO
             return true;
         }
 
+        /// <summary>
+        /// Factory method to return different output destination
+        /// </summary>
+        /// <param name="output">decide where to output</param>
+        /// <returns>Specific output factory</returns>
         private IOutTo SelectOutDest(OUTPUTTO output)
         {
             IOutTo outTo;
@@ -50,21 +79,16 @@ namespace MyDataIO
             {
                 case OUTPUTTO.CONSOLE: outTo = new OutToConsole();break;
                 case OUTPUTTO.FILE: outTo = new OutToFile(); break;
-                case OUTPUTTO.BOTH: outTo = new OutToBoth(); break;
-                default: outTo = new OutToBoth();break;
+                case OUTPUTTO.MANY: outTo = new OutToMany(new List<IOutTo>{ new OutToConsole(),new OutToFile() }); break;
+                default: outTo = new OutToMany(new List<IOutTo> { new OutToConsole(), new OutToFile() }); break;
             }
             return outTo;
         }
 
-        private void OutputToConsole(IPayslip p)
-        {
-            if (p == null)
-            {
-                throw new ArgumentNullException("PAYSLIP IS NULL");
-            }
-            Console.WriteLine($"{p.Name},{p.PayPeriod},{p.GrossIncome},{p.IncomeTax},{p.NetIncome},{p.Super}");
-        }
-
+        /// <summary>
+        /// Transform filestream to lines of string
+        /// </summary>
+        /// <returns>List of strings</returns>
         private List<string> StreamToStringLine()
         {
             List<string> results = new List<string>();

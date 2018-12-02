@@ -7,9 +7,12 @@ namespace Model
     [Flags]
     public enum OUTPUTTO
     {
+        // Output to Console only
         CONSOLE = 1,
+        // Output to File only
         FILE = 2,
-        DATABASE = 4,
-        BOTH = CONSOLE | FILE
+        // Output to All (might be more in future)
+        // CONSOLE | FILE | DATABASE
+        MANY = CONSOLE | FILE  
     }
 }
