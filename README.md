@@ -20,9 +20,9 @@ output: format (name, pay period, gross income, income tax, net income, super)
 ## Design
 From top to bottom.
 The application should contains following modules:
-### Data input and output module
-### Data pre-process module which converts original input to desired format
-### Data caculating module for payslip data
+#### Data input and output module
+#### Data pre-process module which converts original input to desired format
+#### Data caculating module for payslip data
 
 ## Workflow
 ![image](https://user-images.githubusercontent.com/38408398/49339513-d511ac80-f697-11e8-88ab-6bc08b715448.png)
