@@ -46,3 +46,12 @@ This project is application entry. It should be set as startup project when you 
 #### MYOB.Tests
 This is unit test project including all business logic module tests
 
+## Development Process
+1. Requirement analysis
+2. Make assumptions to restrict boundry
+3. Design architecture from top level
+4. Implement individual module by TDD
+5. Integration
+6. Continuous refactoring
+
+## How to run application
