@@ -16,3 +16,6 @@ output: format (name, pay period, gross income, income tax, net income, super)
 7. First name and last name only contains english letters
 8. Payment period only starts from first day of monty to last day of same month
 9. System support super rate using both percentage and decimal. For example 11% is same as 0.11
+
+## Architecture
+
