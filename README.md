@@ -21,18 +21,18 @@ output: format (name, pay period, gross income, income tax, net income, super)
 ![image](https://user-images.githubusercontent.com/38408398/49339086-3b470100-f691-11e8-997e-98ebaadadd47.png)
 
 The solution includes seven seperate projects.
-###App project:
+### App project:
 This project integrates all modules to output payslips
-###DataIO project:
+### DataIO project:
 This module is used for input and output process
-###DataPreProcessor:
+### DataPreProcessor:
 This module is behind DataIO and used to convert string list to employee object which will be used by next module
-###Service
+### Service
 This module will consume the employee object and perform the caculation to generate payslip data
-###Model
+### Model
 This project includes all interface and business model definition
-###Payslip
+### Payslip
 This project is application entry. It should be set as startup project when you run this solution in vs
-###MYOB.Tests
+### MYOB.Tests
 This is unit test project including all business logic module tests
 
