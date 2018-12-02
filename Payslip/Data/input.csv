@@ -1,2 +1,7 @@
 First Name,Last Name,Annual Salary,Super Rate(%),Payment Period
-David,Rudd,60050,9%,01 March - 31 March
+David,Rudd,60050,9%, 01 March - 31 March
+Alice,Rudd,80050,11%,01 March - 31 March
+Cliff,Rudd,40050,8%, 01 March - 31 March
+Steve,Rudd,70050,10%,01 March - 31 March
+Tommy,Rudd,70050,10%,01 March - 31 March
+Jenny,Rudd,70050,10%,01 March - 31 March

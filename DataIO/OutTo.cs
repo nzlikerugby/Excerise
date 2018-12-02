@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MyDataIO
 {
@@ -32,6 +33,10 @@ namespace MyDataIO
 
             using (var fs = new FileStream(file,FileMode.OpenOrCreate))
             {
+                if(fs.Length == 0)
+                {
+                    strWriter.WriteLine($"Name,PayPeriod,GrossIncome,IncomeTax,NetIncome,Super");
+                }
                 var sw = new StreamWriter(fs);
                 ps.ForEach(p =>
                 {
