@@ -17,6 +17,15 @@ output: format (name, pay period, gross income, income tax, net income, super)
 8. Payment period only starts from first day of monty to last day of same month
 9. System support super rate using both percentage and decimal. For example 11% is same as 0.11
 
+## Design
+From top to bottom.
+The application should contains following modules:
+### Data input and output module
+### Data pre-process module which converts original input to desired format
+### Data caculating module for payslip data
+The application workflow is as following:
+
+
 ## Architecture
 ![image](https://user-images.githubusercontent.com/38408398/49339086-3b470100-f691-11e8-997e-98ebaadadd47.png)
 
