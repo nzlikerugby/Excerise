@@ -30,24 +30,20 @@ namespace MyApp
             Console.WriteLine(  "1. Console output only");
             Console.WriteLine(  "2. File output only");
             Console.WriteLine(  "3. Both above");
-            Console.WriteLine(  "q. Quit");
+            Console.WriteLine(  "4. Quit");
             Console.WriteLine("============================================================");
-            Console.Write("Please choose 1,2,3 or q for payslip operation :");
+            Console.Write("Please choose 1,2,3,4 for payslip operation :");
             return SelectOption();
         }
 
         private OUTPUTTO SelectOption()
         {
-            var arr = new List<char> { '1', '2', '3', 'q' };
+            var arr = new List<char> { '1', '2', '3', '4' };
             char c;
             do
             {
                 Console.Write("Please choose right option : ");
                 c = Console.ReadKey().KeyChar;
-                if (c == 'q')
-                {
-                    Environment.Exit(0);
-                }
                 Console.WriteLine();
             } while (!arr.Contains(c));
             return GetOutputOption(int.Parse(c.ToString()));
@@ -55,21 +51,13 @@ namespace MyApp
 
         private OUTPUTTO GetOutputOption(int input)
         {
-            if(input == 1)
+            switch (input)
             {
-                return OUTPUTTO.CONSOLE;
-            }
-            else if(input == 2)
-            {
-                return OUTPUTTO.FILE;
-            }
-            else if(input == 3)
-            {
-                return OUTPUTTO.BOTH;
-            }
-            else
-            {
-                return OUTPUTTO.CONSOLE;
+                case 1: return OUTPUTTO.CONSOLE;
+                case 2: return OUTPUTTO.FILE;
+                case 3: return OUTPUTTO.BOTH;
+                case 4: Environment.Exit(0);return OUTPUTTO.CONSOLE;
+                default: return OUTPUTTO.CONSOLE;
             }
         }
     }
