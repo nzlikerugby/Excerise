@@ -245,6 +245,7 @@ namespace MyServices
             {
                 throw new Exception("INPUT FIELD CANNOT BE NULL OR EMPTY");
             }
+
         }
 
         public double ValidateInput(double? input)
