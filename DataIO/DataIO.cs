@@ -78,7 +78,10 @@ namespace MyDataIO
                 }
                 while(line != null)
                 {
-                    results.Add(line);
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        results.Add(line);
+                    }
                     line = sr.ReadLine();
                 }
             }
