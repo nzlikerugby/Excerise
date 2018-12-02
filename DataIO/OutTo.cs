@@ -1,6 +1,7 @@
 ﻿using Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace MyDataIO
@@ -25,7 +26,22 @@ namespace MyDataIO
     {
         public bool OutputToDest(List<IPayslip> ps)
         {
-            throw new NotImplementedException();
+            var file = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, "payslip","data","output.csv");
+            StringBuilder sb = new StringBuilder();
+            StringWriter strWriter = new StringWriter(sb);
+
+            using (var fs = new FileStream(file,FileMode.OpenOrCreate))
+            {
+                var sw = new StreamWriter(fs);
+                ps.ForEach(p =>
+                {
+                    strWriter.WriteLine($"{p.Name},{p.PayPeriod},{p.GrossIncome},{p.IncomeTax},{p.NetIncome},{p.Super}");
+                });
+                sw.Write(sb);
+                sw.Close();
+            }
+            strWriter.Close();
+            return true;
         }
     }
 

@@ -17,7 +17,7 @@ namespace MyApp
             var stringLines = dataIO.ReadFile(fileName);
             var staffs = dataPreProcessor.GenerateStaffList(stringLines);
             var payslips = service.GeneratePayslips(staffs);
-            dataIO.Output(payslips, OUTPUTTO.CONSOLE);
+            dataIO.Output(payslips, OUTPUTTO.BOTH);
         }        
     }
 }
