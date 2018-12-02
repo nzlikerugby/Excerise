@@ -1,6 +1,7 @@
 ﻿using Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace MyServices
@@ -11,40 +12,8 @@ namespace MyServices
     /// </summary>
     public class Services:IServices
     {
-        private IStaff staff;
         private static Services service;
-        // Not good solution
-        Dictionary<string,string> payPeriods = new Dictionary<string, string>
-        {
-            { "01January-31January","01 January-31 January" },
-            { "01February-28February","01 February-28 February" },
-            { "01February-29February","01 February-29 February" },
-            { "01March-31March", "01 March-31 March" },
-            { "01April-30April", "01 April-30 April" },
-            { "01May-31May", "01 May-31 May"},
-            { "01June-30June",  "01 June-30 June"},
-            { "01July-31July", "01 July-31 July" },
-            { "01August-30August", "01 August-30 August" },
-            { "01September-31September", "01 September-31 September"},
-            { "01October-30October", "01 October-30 October"},
-            { "01November-31November", "01November-31November" },
-            { "01December-30December", "01 December-30 December" },
-
-            { "1January-31January","01 January-31 January" },
-            { "1February-28February","01 February-28 February" },
-            { "1February-29February","01 February-29 February" },
-            { "1March-31March", "01 March-31 March" },
-            { "1April-30April", "01 April-30 April" },
-            { "1May-31May", "01 May-31 May"},
-            { "1June-30June",  "01 June-30 June"},
-            { "1July-31July", "01 July-31 July" },
-            { "1August-30August", "01 August-30 August" },
-            { "1September-31September", "01 September-31 September"},
-            { "1October-30October", "01 October-30 October"},
-            { "1November-31November", "01November-31November" },
-            { "1December-30December", "01 December-30 December" }
-        };
-        
+                
         /// <summary>
         /// Private constructor to ensure only one 
         /// instance can be created
@@ -217,12 +186,23 @@ namespace MyServices
         public string OutputPayperiod(string inputPayperiod)
         {
             CheckInputNullOrEmpty(inputPayperiod);
-            string payPeriod = inputPayperiod.Replace(" ", null);
-            if (payPeriods.ContainsKey(payPeriod))
+            var splitDates = inputPayperiod.Split('-').ToList();
+            var trimDates = new List<string>();
+            splitDates.ForEach(p => trimDates.Add(p.Replace(" ",null)));
+            var pattern = "ddMMMM";
+            List<string> parsedDates = new List<string>();
+            foreach(var date in trimDates)
             {
-                return payPeriods[payPeriod];
+                try
+                {
+                    parsedDates.Add(DateTime.ParseExact(date, pattern, null).ToString("dd MMMM"));
+                }
+                catch(Exception e)
+                {
+                    throw new Exception("INPUT DATE IN WRONG FORMAT");
+                }
             }
-            throw new Exception("INPUT DATE IN WRONG FORMAT");
+            return string.Join("-",parsedDates.ToArray());
         }
 
         /// <summary>
