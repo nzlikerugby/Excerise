@@ -59,3 +59,4 @@ This is unit test project including all business logic module tests
 2. Unzip the download file
 3. Run solution in visual studio (system require .netcore 2.1)
 4. Set Payslip project as startup project for this is application entry
+5. Input and output data at /payslip/data/ directory
