@@ -11,7 +11,7 @@ namespace MYOB.Tests
         [TestMethod]
         public void Test_Output_Payperiod_Normal_Input()
         {
-            string inputPayperiod = "1 March - 31 March";
+            string inputPayperiod = "01 March - 31 March";
             string payPeriod = service.OutputPayperiod(inputPayperiod);
             Assert.AreEqual("01 March-31 March", payPeriod);
         }
